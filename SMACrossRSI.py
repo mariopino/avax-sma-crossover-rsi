@@ -28,7 +28,6 @@ rsi_lower_bound = 40 # Lower bound for RSI
 # print(data.tail())
 
 class SMACrossRSI(Strategy):
-
     n1 = n1
     n2 = n2
     rsi_window = rsi_window
@@ -74,17 +73,16 @@ print(f"\nInitial Backtest Results (n1={n1}, n2={n2}, rsi_window={rsi_window}, r
 print(bt.run())
 
 # Run optimization
-if __name__ == '__main__':
-    optimization_results, heatmap = bt.optimize(
-        n1=range(40, 52, 2),  # Fast SMA from 40 to 50, step 2
-        n2=range(80, 152, 2),  # Slow SMA from 80 to 150, step 2
-        #rsi_window=range(5, 31, 2),  # RSI window from 5 to 30, step 2
-        rsi_upper_bound=range(50, 62, 2),  # RSI upper bound from 50 to 60, step 2
-        rsi_lower_bound=range(40, 52, 2),  # RSI lower bound from 40 to 50, step 2
-        maximize='Return [%]',  # Maximize Return
-        constraint=lambda p: p.n1 < p.n2 and p.rsi_upper_bound > p.rsi_lower_bound,  # Constraint: n1 < n2 and rsi_upper_bound > rsi_lower_bound
-        return_heatmap=True # Return heatmap data
-    )
+optimization_results, heatmap = bt.optimize(
+    n1=range(40, 52, 2),  # Fast SMA from 40 to 50, step 2
+    n2=range(80, 152, 2),  # Slow SMA from 80 to 150, step 2
+    #rsi_window=range(5, 31, 2),  # RSI window from 5 to 30, step 2
+    rsi_upper_bound=range(50, 62, 2),  # RSI upper bound from 50 to 60, step 2
+    rsi_lower_bound=range(40, 52, 2),  # RSI lower bound from 40 to 50, step 2
+    maximize='Return [%]',  # Maximize Return
+    constraint=lambda p: p.n1 < p.n2 and p.rsi_upper_bound > p.rsi_lower_bound,  # Constraint: n1 < n2 and rsi_upper_bound > rsi_lower_bound
+    return_heatmap=True # Return heatmap data
+)
 
 # Print optimization results
 best_n1 = optimization_results._strategy.n1
